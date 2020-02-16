@@ -9,6 +9,7 @@ using std::ifstream;
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 // Global variable storing the cube net's vertex positions. 
+// (Global so the translate functions can access them, also, if defined in the header file or constructor, the dynamic array method doesn't seem to work).
 glm::vec3 cubeNetPosData[14] = {
 	glm::vec3(0.2f, 0.8f, 0.0f),   // 0
 	glm::vec3(0.2f, 0.4f, 0.0f),   // 1
@@ -24,18 +25,18 @@ glm::vec3 cubeNetPosData[14] = {
 	glm::vec3(-0.2f, 0.0f, 0.0f),  // 11
 	glm::vec3(-0.2f, 0.4f, 0.0f),  // 12
 	glm::vec3(-0.2f, 0.8f, 0.0f)   // 13
-}; // Global variable storing the cube net's vertex positions.
-// (Global so the translate functions can access them, also, if defined in the header file or constructor, the dynamic array method doesn't seem to work).
+}; 
 
+// Global variable storing the kite's vertex positions.
 glm::vec3 kitePosData[5] = {
 	glm::vec3(0.0f, 0.8f, 0.0f),   // 0
 	glm::vec3(0.4f, 0.4f, 0.0f),   // 1
 	glm::vec3(0.0f, 0.4f, 0.0f),   // 2
 	glm::vec3(-0.4f, 0.4f, 0.0f),  // 3
 	glm::vec3(0.0f, -0.8f, 0.0f)   // 4
-};  // Global variable storing the kite's vertex positions.
+};  
 
-//Point's Colours 
+// Global variable storing the cube net's colour data.
 glm::vec3 cubeNetColourData[14] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),  //Red
 	glm::vec3(1.0f, 0.0f, 1.0f),  //Magenta
@@ -51,17 +52,19 @@ glm::vec3 cubeNetColourData[14] = {
 	glm::vec3(0.0f, 1.0f, 1.0f),  //Cyan
 	glm::vec3(0.0f, 0.0f, 1.0f),  //Blue
 	glm::vec3(0.0f, 0.0f, 0.0f)	  //Black
-};  // Global variable storing the cube net's colour data.
+};  
 
+// Global variable storing the kite's colour data.
 glm::vec3 kiteColourData[5] = {
 	glm::vec3(1.0f, 0.0f, 0.0f),  //Red
 	glm::vec3(0.0f, 0.0f, 1.0f),  //Blue
 	glm::vec3(0.0f, 1.0f, 1.0f),  //Cyan
 	glm::vec3(0.0f, 1.0f, 0.0f),  //Green
 	glm::vec3(1.0f, 1.0f, 1.0f),  //White
-}; // Global variable storing the kite's colour data.
+}; 
 
 //Points Indexed as Individual Triangles
+// Global variable storing the cube net's indices.
 GLuint cubeNetindices[12 * 3] = {
 	0,1,13,  // 0
 	13,12,1, // 1
@@ -75,14 +78,15 @@ GLuint cubeNetindices[12 * 3] = {
 	3,7,6,   // 9
 	3,6,4,   // 10
 	4,6,5    // 11
-}; // Global variable storing the cube net's indices.
+}; 
 
+// Global variable storing the kite's indices.
 GLuint kiteIndices[4 * 3] = {
 	0,1,2, // 0
 	0,3,2, // 1
 	3,4,2, // 2
 	2,1,4  // 3
-}; // Global variable storing the kite's indices.
+}; 
 
 //! Function Empty Constructor
 RGBShapes::RGBShapes() 
@@ -92,7 +96,11 @@ RGBShapes::RGBShapes()
 //! Function to initialise a new shape, vertex shader, fragment shader and shader program.
 /*!
 \param isKite Passes in the boolean from main to determine if the CTRL key has been pressed to change the shape's values.
-\param &toBeMovedL Has the A key been pressed in main. (Bool).\param &toBeMovedR Has the D key been pressed in main. (Bool).\param &toBeMovedU Has the W key been pressed in main. (Bool).\param &toBeMovedD Has the S key been pressed in main. (Bool).*/
+\param &toBeMovedL Has the A key been pressed in main. (Bool).
+\param &toBeMovedR Has the D key been pressed in main. (Bool).
+\param &toBeMovedU Has the W key been pressed in main. (Bool).
+\param &toBeMovedD Has the S key been pressed in main. (Bool).
+*/
 void RGBShapes::initScene(bool isKite, bool &toBeMovedL, bool &toBeMovedR, bool &toBeMovedU, bool &toBeMovedD)
 {
 	// Runs the translation function appropriate if any of the translation bools are true, and sets them back to false.
